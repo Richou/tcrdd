@@ -82,7 +82,12 @@ ASSUMING_GREEN=false
 ASSUMING_RED=false
 ASSUMING_REMOTE=true
 
-OPTIONS=`getopt -o lgrhm: --long local,green,red,help,message: -n "$(basename $0)" -- "$@"`
+TEST_GETOPT_CMD=$(getopt -T)
+if (( $? != 4 )) && [[ -n $TEST_GETOPT_CMD ]]; then
+    OPTIONS=`getopt lgrhm: $*`
+else
+    OPTIONS=`getopt -o lgrhm: --long local,green,red,help,message: -n "$(basename $0)" -- "$@"`
+fi
 
 eval set -- "${OPTIONS}"
 
